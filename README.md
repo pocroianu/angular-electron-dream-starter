@@ -11,7 +11,7 @@
 
 Forked from [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter).
 
-I designed this seed repo to demonstrate an ideal development workflow and the most powerful tools for developing desktop applicaitons using Angular and Electron. `npm start` launches a powerful development workflow which uses Hot Module Replacement (HMR) for nearly instant updates inside the browser window, while also restarting your app automatically every time you update the code of the main process.
+I designed this seed repo to demonstrate an ideal development workflow and the most powerful tools for developing desktop applications using Angular and Electron. `npm start` launches a powerful development workflow which uses Hot Module Replacement (HMR) for nearly instant updates inside the browser window, while also restarting your app automatically every time you update the code of the main process.
 
 * Best practices in desktop application development with Angular and Electron.
 * Ready to go build system using Webpack 2 for working with TypeScript.
