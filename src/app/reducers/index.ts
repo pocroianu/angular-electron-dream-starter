@@ -25,7 +25,7 @@ function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
 
 const DEV_REDUCERS = [stateSetter, storeFreeze, storeLogger()];
 
-const developmentReducer = compose(...DEV_REDUCERS, combineReducers)(reducers);
+const developmentReducer: any = compose(...DEV_REDUCERS, combineReducers)(reducers);
 const productionReducer = compose(combineReducers)(reducers);
 
 export function rootReducer(state: any, action: any) {
