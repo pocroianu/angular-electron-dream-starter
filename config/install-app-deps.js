@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const installOrRebuild = require('electron-builder/out/yarn').installOrRebuild;
-const printErrorAndExit = require('electron-builder-util/out/promise').printErrorAndExit;
+const installOrRebuild = require('electron-builder/out/util/yarn').installOrRebuild;
+const printErrorAndExit = require('builder-util/out/promise').printErrorAndExit;
 
 const root = process.cwd();
 
@@ -13,7 +13,16 @@ const electronVersion = getElectronVersion(root);
 
 writeAppPackage(rootPackage, appDir);
 
-installOrRebuild(rootPackage.build, appDir, electronVersion, platform, arch, true)
+const options = {
+  frameworkInfo: {
+    version: electronVersion,
+    useCustomDist: false
+  },
+  platform,
+  arch
+}
+
+installOrRebuild(rootPackage.build, appDir, options, true)
   .catch(printErrorAndExit);
 
 

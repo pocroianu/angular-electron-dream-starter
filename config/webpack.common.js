@@ -62,6 +62,7 @@ module.exports = function (options) {
 
   return {
 
+    name: 'renderer',
     /*
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
      * This is enabled by default in watch mode.
