@@ -12,7 +12,6 @@ import { shell } from 'electron';
 import { AppState } from './reducers';
 import { Store } from '@ngrx/store';
 import { HomeState } from './home/home.reducer';
-import { HomeActions } from './home/home.actions';
 
 /*
  * App Component
@@ -72,10 +71,7 @@ export class AppComponent implements OnInit {
   public url = 'https://github.com/colinskow/angular-electron-dream-starter';
   public state$: Observable<HomeState>;
 
-  constructor(
-    private store: Store<AppState>,
-    private homeActions: HomeActions,
-  ) {
+  constructor(private store: Store<AppState>) {
     this.state$ = this.store.select(state => state.home);
   }
 

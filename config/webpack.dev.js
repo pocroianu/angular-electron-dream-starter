@@ -167,7 +167,6 @@ module.exports = function (options) {
             '@angular/platform-browser-dynamic',
             '@angular/router',
             '@angularclass/hmr',
-            '@ngrx/core',
             '@ngrx/effects',
             '@ngrx/router-store',
             '@ngrx/store',

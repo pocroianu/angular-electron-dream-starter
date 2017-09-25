@@ -1,21 +1,27 @@
 /*
- * Reducers: this file contains boilerplate code to handle debugging
- * in development mode, as well as integrate the store with HMR.
- * Customize your own reducers in `root.ts`.
+ * Reducers: YOU LIKELY WON'T NEED TO EDIT THIS FILE.
+ * This is boilerplate code to connect your store to debug tools and HMR.
+ * Customize your root reducer and AppState in `root.ts`.
  */
-import { compose } from '@ngrx/core/compose';
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { compose } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { Params, RouterStateSnapshot } from '@angular/router';
+import {
+  routerReducer,
+  RouterReducerState,
+  RouterStateSerializer
+} from '@ngrx/router-store';
+// storeFreeze is currently conflicting with @ngrx/router-store
 import { storeFreeze } from 'ngrx-store-freeze';
 import { storeLogger } from 'ngrx-store-logger';
-import { reducers } from './root';
-
+import { AppState } from './root';
 export { reducers, AppState } from './root';
 
 declare const ENV: string;
 
 // Generate a reducer to set the root state in dev mode for HMR
 function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function(state, action) {
+  return function(state, action: any) {
     if (action.type === 'SET_ROOT_STATE') {
       return action.payload;
     }
@@ -23,15 +29,29 @@ function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-const DEV_REDUCERS = [stateSetter, storeFreeze, storeLogger()];
+function logger(reducer: ActionReducer<AppState>): any {
+  return storeLogger()(reducer);
+}
 
-const developmentReducer: any = compose(...DEV_REDUCERS, combineReducers)(reducers);
-const productionReducer = compose(combineReducers)(reducers);
+export const metaReducers = ENV === 'development'
+  ? [stateSetter, logger, storeFreeze]
+  : [];
 
-export function rootReducer(state: any, action: any) {
-  if (ENV !== 'development') {
-    return productionReducer(state, action);
-  } else {
-    return developmentReducer(state, action);
+export interface RouterStateUrl {
+  url: string;
+  queryParams: Params;
+}
+
+// The CustomSerializer improves @ngrx performance and allows storeFreeze
+// to co-exist with the router-store.
+// See: https://github.com/ngrx/platform/blob/master/docs/router-store/api.md
+export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
+  public serialize(routerState: RouterStateSnapshot): RouterStateUrl {
+    const { url } = routerState;
+    const queryParams = routerState.root.queryParams;
+
+    // Only return an object including the URL and query params
+    // instead of the entire snapshot
+    return { url, queryParams };
   }
 }

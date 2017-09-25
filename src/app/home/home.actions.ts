@@ -2,15 +2,12 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Action } from '@ngrx/store';
 
-@Injectable()
+export const SET_VALUE = '[Home] Set Value';
 
-export class HomeActions {
+export class SetValue implements Action {
+  public readonly type = SET_VALUE;
 
-  public static SET_VALUE = '[Home] Set Value';
-  public setValue(value: string): Action {
-    return {
-      type: HomeActions.SET_VALUE,
-      payload: value
-    };
-  }
+  constructor(public payload: string) {}
 }
+
+export type Actions = SetValue;

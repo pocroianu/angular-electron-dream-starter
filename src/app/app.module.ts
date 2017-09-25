@@ -16,7 +16,10 @@ import {
 } from '@angular/router';
 
 import { EffectsModule } from '@ngrx/effects';
-import { RouterStoreModule } from '@ngrx/router-store';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { Store } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -26,14 +29,17 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
  */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
-import { rootReducer } from './reducers';
+import {
+  reducers,
+  metaReducers,
+  AppState,
+  CustomSerializer
+} from './reducers';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState } from './reducers';
 import { HomeComponent } from './home';
-import { HomeActions } from './home/home.actions';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
@@ -46,8 +52,8 @@ declare const ENV: string;
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  HomeActions,
-  { provide: APP_BASE_HREF, useValue : '/' }
+  { provide: APP_BASE_HREF, useValue : '/' },
+  { provide: RouterStateSerializer, useClass: CustomSerializer }
 ];
 
 interface InternalStateType {
@@ -65,7 +71,10 @@ let CONDITIONAL_IMPORTS = [];
 
 if (ENV === 'development') {
   console.log('loading react devtools');
-  CONDITIONAL_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension());
+  CONDITIONAL_IMPORTS.push(StoreDevtoolsModule.instrument());
+  // AoT won't allow metaReducers, so we need to add them conditionally
+  // this should override the previous StoreModule declaration
+  CONDITIONAL_IMPORTS.push(StoreModule.forRoot(reducers, { metaReducers }));
 }
 
 /**
@@ -84,8 +93,8 @@ if (ENV === 'development') {
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(rootReducer),
-    RouterStoreModule.connectRouter(),
+    StoreModule.forRoot(reducers),
+    StoreRouterConnectingModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     ...CONDITIONAL_IMPORTS
   ],

@@ -5,11 +5,11 @@
   <img src="https://rawgit.com/colinskow/angular2-webpack-starter/electron/src/assets/img/angular-electron.svg" alt="Angular Electron Dream Starter" width="300" height="300"/>
 </p>
 
-# Angular Electron Dream Starter with Webpack 2
+# Angular Electron Dream Starter with Webpack
 
-> A starter kit for [Electron](https://electron.atom.io) and [Angular 4](https://angular.io) featuring [Webpack 2](https://webpack.js.org), [AoT](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) compile, [NGRX Store](https://github.com/ngrx/store), Electron unit tests, native E2E tests in [Spectron](http://electron.atom.io/spectron/), and a powerful development workflow with [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and [Electron Connect](https://github.com/Quramy/electron-connect).
+> A starter kit for [Electron](https://electron.atom.io) and [Angular 4](https://angular.io) featuring [Webpack 3](https://webpack.js.org), [AoT](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) compile, [@ngrx 4](https://github.com/ngrx/platform), Electron unit tests, native E2E tests in [Spectron](http://electron.atom.io/spectron/), and a powerful development workflow with [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and [Electron Connect](https://github.com/Quramy/electron-connect).
 
-Forked from [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter).
+Forked from [AngularClass/angular-starter](https://github.com/AngularClass/angular-starter).
 
 I designed this seed repo to demonstrate an ideal development workflow and the most powerful tools for developing desktop applications using Angular and Electron. `npm start` launches a powerful development workflow which uses Hot Module Replacement (HMR) for nearly instant updates inside the browser window, while also restarting your app automatically every time you update the code of the main process.
 

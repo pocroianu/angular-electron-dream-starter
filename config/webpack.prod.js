@@ -11,10 +11,12 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin');
 const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 
@@ -124,6 +126,28 @@ module.exports = function (env) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+
+      /**
+       * Scope Hoisting is the flagship feature of webpack 3. One of webpack’s 
+       * trade-offs when bundling was that each module in your bundle would be 
+       * wrapped in individual function closures. These wrapper functions made 
+       * it slower for your JavaScript to execute in the browser. In comparison, 
+       * tools like Closure Compiler and RollupJS ‘hoist’ or concatenate the 
+       * scope of all your modules into one closure and allow for your code to 
+       * have a faster execution time in the browser.
+       * 
+       * See: https://webpack.js.org/plugins/module-concatenation-plugin/
+       */
+      new ModuleConcatenationPlugin(),
+
+      /**
+       * This plugin will cause hashes to be based on the relative path of the 
+       * module, generating a four character string as the module id. Suggested 
+       * for use in production.
+       * 
+       * See: https://webpack.js.org/plugins/hashed-module-ids-plugin/
+       */
+      new HashedModuleIdsPlugin(),
 
       /**
        * Webpack plugin to optimize a JavaScript file for faster initial load
